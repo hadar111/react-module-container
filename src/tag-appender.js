@@ -42,6 +42,7 @@ export function tagAppender(url, filetype, crossorigin) {
     fileref.onerror = function () {
       fileref.onerror = fileref.onload = fileref.onreadystatechange = null;
       delete requireCache[url];
+      console.error('onerror called for ' + url);
       reject(url);
     };
     fileref.onload = fileref.onreadystatechange = function () {
@@ -77,7 +78,7 @@ function append(file, crossorigin) {
 export function filesAppender(files, crossorigin) {
   return Promise.all(files.map(file => {
     if (Array.isArray(file)) {
-      return file.reduce((promise, next) => promise.then(() => append(next, crossorigin), err => console.log('filesAppender failed on - ' + err)), Promise.resolve());
+      return file.reduce((promise, next) => promise.then(() => append(next, crossorigin)), Promise.resolve());
     } else {
       return append(file, crossorigin);
     }

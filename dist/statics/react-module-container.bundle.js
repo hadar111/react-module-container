@@ -4883,7 +4883,7 @@ var BaseLazyComponent = function (_React$Component) {
         return undefined;
       };
       var filesAppenderPromise = (0, _tagAppender.filesAppender)(this.manifest.files, this.manifest.crossorigin).then(prepare, function (err) {
-        return console.error(err);
+        console.error("filesAppender failed = " + err);
       });
       var resolvePromise = this.manifest.resolve ? this.manifest.resolve() : Promise.resolve({});
       this.resourceLoader = Promise.all([resolvePromise, filesAppenderPromise]).then(function (_ref) {
@@ -4893,7 +4893,7 @@ var BaseLazyComponent = function (_React$Component) {
         _this2.resolvedData = resolvedData;
         _moduleRegistry2.default.notifyListeners('reactModuleContainer.componentReady', _this2.manifest.component);
       }).catch(function (err) {
-        return console.error(err);
+        console.error(err);
       });
     }
   }, {
@@ -5094,6 +5094,7 @@ function tagAppender(url, filetype, crossorigin) {
     fileref.onerror = function () {
       fileref.onerror = fileref.onload = fileref.onreadystatechange = null;
       delete requireCache[url];
+      console.error('onerror called for ' + url);
       reject(url);
     };
     fileref.onload = fileref.onreadystatechange = function () {
@@ -5132,8 +5133,6 @@ function filesAppender(files, crossorigin) {
       return file.reduce(function (promise, next) {
         return promise.then(function () {
           return append(next, crossorigin);
-        }, function (err) {
-          return console.log('filesAppender failed on - ' + err);
         });
       }, Promise.resolve());
     } else {

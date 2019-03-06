@@ -54,7 +54,7 @@ var BaseLazyComponent = function (_React$Component) {
         return undefined;
       };
       var filesAppenderPromise = (0, _tagAppender.filesAppender)(this.manifest.files, this.manifest.crossorigin).then(prepare, function (err) {
-        return console.error(err);
+        console.error("filesAppender failed = " + err);
       });
       var resolvePromise = this.manifest.resolve ? this.manifest.resolve() : Promise.resolve({});
       this.resourceLoader = Promise.all([resolvePromise, filesAppenderPromise]).then(function (_ref) {
@@ -64,7 +64,7 @@ var BaseLazyComponent = function (_React$Component) {
         _this2.resolvedData = resolvedData;
         _moduleRegistry2.default.notifyListeners('reactModuleContainer.componentReady', _this2.manifest.component);
       }).catch(function (err) {
-        return console.error(err);
+        console.error(err);
       });
     }
   }, {
