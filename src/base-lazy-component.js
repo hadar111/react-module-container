@@ -2,6 +2,7 @@ import React from 'react';
 import ModuleRegistry from './module-registry';
 import { filesAppender, unloadStyles } from './tag-appender';
 import assign from 'lodash/assign';
+import * as Sentry from '@sentry/browser';
 
 export default class BaseLazyComponent extends React.Component {
 
@@ -19,6 +20,7 @@ export default class BaseLazyComponent extends React.Component {
     const prepare = this.manifest.prepare ? () => this.manifest.prepare() : () => undefined;
     const filesAppenderPromise = filesAppender(this.manifest.files, this.manifest.crossorigin).then(prepare, err => {
       console.error("filesAppender failed = " + err);
+      Sentry.captureMessage("filesAppender failed = " + err);
     });
     const resolvePromise = this.manifest.resolve ? this.manifest.resolve() : Promise.resolve({});
     this.resourceLoader = Promise.all([resolvePromise, filesAppenderPromise]).then(([resolvedData]) => {
