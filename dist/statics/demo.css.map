@@ -1,0 +1,1 @@
+{"version":3,"file":"demo.css","sources":["webpack:///./demo/demo.scss"],"sourcesContent":[".active-link {\n  background-color: yellow;\n}\n\n\n\n// WEBPACK FOOTER //\n// ./demo/demo.scss"],"mappings":"AAAA;AACA;","sourceRoot":""}
